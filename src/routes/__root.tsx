@@ -89,6 +89,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Noor — Memorize Surah Yaseen" },
+      { name: "twitter:description", content: "A serene, interactive companion for learning and memorizing Surah Yaseen." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99cb7c27-e3d1-4b26-bf39-2f291d9d55f1/id-preview-578d2abd--a028156e-6956-4ee2-923a-b4f57534c4f8.lovable.app-1780836975935.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/99cb7c27-e3d1-4b26-bf39-2f291d9d55f1/id-preview-578d2abd--a028156e-6956-4ee2-923a-b4f57534c4f8.lovable.app-1780836975935.png" },
     ],
     links: [
       {
