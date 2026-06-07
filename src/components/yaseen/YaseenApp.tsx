@@ -18,7 +18,7 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { useYaseen, RECITERS } from "./useYaseen";
+import { useYaseen, RECITERS, type Ayah } from "./useYaseen";
 import { useProgress, type VerseStatus } from "./useProgress";
 import { VerseCard } from "./VerseCard";
 
@@ -283,7 +283,7 @@ function ModeCard({ icon, title, desc, cta, onClick, highlight }: {
 function ReadView({
   chunks, chunkIndex, setChunkIndex, mode, settings, statuses, onStatus, onActiveVerse,
 }: {
-  chunks: ReturnType<typeof useYaseen>["data"] extends infer T ? (T extends undefined ? never[] : NonNullable<T>[]) : never[];
+  chunks: Ayah[][];
   chunkIndex: number;
   setChunkIndex: (i: number) => void;
   mode: Mode;
