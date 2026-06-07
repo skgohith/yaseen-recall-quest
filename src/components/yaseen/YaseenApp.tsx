@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useYaseen, RECITERS, type Ayah } from "./useYaseen";
 import { useProgress, type VerseStatus } from "./useProgress";
 import { VerseCard } from "./VerseCard";
+import { OfflineDownload } from "./OfflineDownload";
 
 type Tab = "dashboard" | "read" | "progress" | "settings";
 type Mode = "learner" | "memorizer";
@@ -125,6 +126,7 @@ export function YaseenApp() {
             settings={settings}
             onChange={updateSettings}
             onReset={reset}
+            ayahs={ayahs}
           />
         )}
       </main>
@@ -380,14 +382,22 @@ function ProgressView({
 }
 
 function SettingsView({
-  settings, onChange, onReset,
+  settings, onChange, onReset, ayahs,
 }: {
   settings: ReturnType<typeof useProgress>["state"]["settings"];
   onChange: (p: Partial<ReturnType<typeof useProgress>["state"]["settings"]>) => void;
   onReset: () => void;
+  ayahs: Ayah[] | undefined;
 }) {
   return (
     <div className="space-y-5">
+      <SettingCard
+        title="Offline download"
+        desc="Save Surah Yāsīn audio and text to your device so it works without internet."
+      >
+        <OfflineDownload ayahs={ayahs} reciter={settings.reciter} />
+      </SettingCard>
+
       <SettingCard title="Reciter" desc="Choose the voice you'd like to learn with.">
         <div className="grid gap-2">
           {RECITERS.map((r) => (
