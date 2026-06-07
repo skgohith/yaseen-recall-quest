@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { registerPwa } from "../lib/pwa";
 
 function NotFoundComponent() {
   return (
@@ -80,6 +81,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Noor — Memorize Surah Yaseen" },
       { name: "description", content: "A serene, interactive companion for learning and memorizing Surah Yaseen." },
       { name: "author", content: "Noor" },
+      { name: "theme-color", content: "#0f4f4a" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "Noor" },
       { property: "og:title", content: "Noor — Memorize Surah Yaseen" },
       { property: "og:description", content: "A serene, interactive companion for learning and memorizing Surah Yaseen." },
       { property: "og:type", content: "website" },
@@ -91,6 +95,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", href: "/icon-192.png", type: "image/png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -121,6 +128,10 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    void registerPwa();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
