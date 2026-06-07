@@ -36,10 +36,10 @@ export function YaseenApp() {
   const { settings } = state;
   const { data: ayahs, isLoading, error } = useYaseen(settings.reciter);
 
-  const chunks = useMemo(() => {
-    if (!ayahs) return [] as (typeof ayahs)[];
+  const chunks = useMemo<Ayah[][]>(() => {
+    if (!ayahs) return [];
     const size = settings.chunkSize;
-    const out: (typeof ayahs)[] = [];
+    const out: Ayah[][] = [];
     for (let i = 0; i < ayahs.length; i += size) out.push(ayahs.slice(i, i + size));
     return out;
   }, [ayahs, settings.chunkSize]);
