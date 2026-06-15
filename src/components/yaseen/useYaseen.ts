@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import yaseenData from "@/data/yaseen.json";
 
 export interface Ayah {
   number: number;
@@ -15,45 +16,27 @@ export interface ReciterOption {
 }
 
 export const RECITERS: ReciterOption[] = [
-  { id: "ar.alafasy", name: "Mishary Alafasy" },
-  { id: "ar.husary", name: "Mahmoud Al-Husary" },
-  { id: "ar.minshawi", name: "Mohamed Al-Minshawi" },
-  { id: "ar.abdulbasitmurattal", name: "Abdul Basit (Murattal)" },
-  { id: "ar.hudhaify", name: "Ali Al-Hudhaify" },
+  { id: "ar.alafasy", name: "Mishary Alafasy (offline)" },
 ];
 
-interface ApiAyah {
+interface LocalAyah {
   number: number;
-  text: string;
   numberInSurah: number;
-  audio?: string;
-}
-
-interface ApiSurah {
-  ayahs: ApiAyah[];
-}
-
-interface ApiResponse {
-  data: ApiSurah[];
+  arabic: string;
+  translation: string;
+  transliteration: string;
 }
 
 export function useYaseen(reciter: string) {
   return useQuery({
     queryKey: ["yaseen", reciter],
-    staleTime: 1000 * 60 * 60,
+    staleTime: Infinity,
+    gcTime: Infinity,
     queryFn: async (): Promise<Ayah[]> => {
-      const url = `https://api.alquran.cloud/v1/surah/36/editions/${reciter},en.sahih,en.transliteration`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Failed to load Surah Yaseen");
-      const json = (await res.json()) as ApiResponse;
-      const [arabicEd, translationEd, translitEd] = json.data;
-      return arabicEd.ayahs.map((a, i) => ({
-        number: a.number,
-        numberInSurah: a.numberInSurah,
-        arabic: a.text,
-        translation: translationEd.ayahs[i]?.text ?? "",
-        transliteration: translitEd.ayahs[i]?.text ?? "",
-        audio: a.audio ?? "",
+      // All text + audio are bundled with the app — zero network needed.
+      return (yaseenData as LocalAyah[]).map((a) => ({
+        ...a,
+        audio: `/audio/yaseen/${a.number}.mp3`,
       }));
     },
   });
