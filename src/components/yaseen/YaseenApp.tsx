@@ -18,10 +18,10 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { CheckCircle2 } from "lucide-react";
 import { useYaseen, RECITERS, type Ayah } from "./useYaseen";
 import { useProgress, type VerseStatus } from "./useProgress";
 import { VerseCard } from "./VerseCard";
-import { OfflineDownload } from "./OfflineDownload";
 
 type Tab = "dashboard" | "read" | "progress" | "settings";
 type Mode = "learner" | "memorizer";
@@ -126,7 +126,6 @@ export function YaseenApp() {
             settings={settings}
             onChange={updateSettings}
             onReset={reset}
-            ayahs={ayahs}
           />
         )}
       </main>
