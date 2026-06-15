@@ -25,31 +25,16 @@ export default defineConfig({
         workbox: {
           navigateFallback: "/",
           navigateFallbackDenylist: [/^\/~oauth/, /^\/api\//],
-          globPatterns: ["**/*.{js,css,html,svg,png,ico,webmanifest,woff,woff2}"],
+          globPatterns: [
+            "**/*.{js,css,html,svg,png,ico,webmanifest,woff,woff2,mp3,json}",
+          ],
+          // 17 MB of bundled audio — raise Workbox's 2 MB default precache limit.
+          maximumFileSizeToCacheInBytes: 30 * 1024 * 1024,
           runtimeCaching: [
             {
               urlPattern: ({ request }) => request.mode === "navigate",
               handler: "NetworkFirst",
               options: { cacheName: "noor-pages", networkTimeoutSeconds: 3 },
-            },
-            {
-              urlPattern: /^https:\/\/api\.alquran\.cloud\/.*/i,
-              handler: "StaleWhileRevalidate",
-              options: {
-                cacheName: "noor-quran-api",
-                expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 24 * 365 },
-                cacheableResponse: { statuses: [0, 200] },
-              },
-            },
-            {
-              urlPattern: /^https:\/\/cdn\.islamic\.network\/quran\/audio\/.*/i,
-              handler: "CacheFirst",
-              options: {
-                cacheName: "noor-quran-audio",
-                expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 365 },
-                cacheableResponse: { statuses: [0, 200] },
-                rangeRequests: true,
-              },
             },
             {
               urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,

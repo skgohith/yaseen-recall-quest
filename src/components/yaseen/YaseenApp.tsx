@@ -18,10 +18,10 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { CheckCircle2 } from "lucide-react";
 import { useYaseen, RECITERS, type Ayah } from "./useYaseen";
 import { useProgress, type VerseStatus } from "./useProgress";
 import { VerseCard } from "./VerseCard";
-import { OfflineDownload } from "./OfflineDownload";
 
 type Tab = "dashboard" | "read" | "progress" | "settings";
 type Mode = "learner" | "memorizer";
@@ -126,7 +126,6 @@ export function YaseenApp() {
             settings={settings}
             onChange={updateSettings}
             onReset={reset}
-            ayahs={ayahs}
           />
         )}
       </main>
@@ -382,20 +381,28 @@ function ProgressView({
 }
 
 function SettingsView({
-  settings, onChange, onReset, ayahs,
+  settings, onChange, onReset,
 }: {
   settings: ReturnType<typeof useProgress>["state"]["settings"];
   onChange: (p: Partial<ReturnType<typeof useProgress>["state"]["settings"]>) => void;
   onReset: () => void;
-  ayahs: Ayah[] | undefined;
 }) {
   return (
     <div className="space-y-5">
       <SettingCard
-        title="Offline download"
-        desc="Save Surah Yāsīn audio and text to your device so it works without internet."
+        title="Offline ready"
+        desc="All 83 verses, translations, and audio are bundled with the app."
       >
-        <OfflineDownload ayahs={ayahs} reciter={settings.reciter} />
+        <div className="flex items-center gap-3 rounded-xl border border-border bg-background p-4 text-sm">
+          <CheckCircle2 className="h-5 w-5 shrink-0 text-primary" />
+          <div>
+            <div className="font-medium">Works without internet</div>
+            <div className="mt-0.5 text-xs text-muted-foreground">
+              Surah Yāsīn audio (Mishary Alafasy) and full text ship inside the app — no
+              downloads, no API calls.
+            </div>
+          </div>
+        </div>
       </SettingCard>
 
       <SettingCard title="Reciter" desc="Choose the voice you'd like to learn with.">
